@@ -6,9 +6,9 @@ Be aware, this will be re-generated any time you run the
 from config.helpers import MetadataBase
 
 custom_metadata = MetadataBase(
-    title="API Template",
-    description="Run 'api-admin custom metadata' to change this information.",
-    repository="https://github.com/seapagan/fastapi-template",
+    title="URL Shortener v2",
+    description="A URL-Shortener written in Python with FastAPI",
+    repository="https://github.com/seapagan/url-shortener2",
     license_info={
         "name": "MIT",
         "url": "https://opensource.org/licenses/MIT",
