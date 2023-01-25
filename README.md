@@ -1,8 +1,10 @@
 # FastAPI Application Template <!-- omit in toc -->
 
 This a rewrite of my [URL Shortener](https://github.com/seapagan/url-shortener)
-which was in turn based on and extended from an original tutorial from Real
-Python.
+which was in turn based on and extended from an original tutorial from [Real
+Python](https://realpython.com/courses/url-shortener-fastapi/).
+
+The API uses the [FastAPI framework](https://fastapi.tiangolo.com/)
 
 - [Functionality](#functionality)
 - [Configuration](#configuration)
