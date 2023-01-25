@@ -1,25 +1,18 @@
 # FastAPI Application Template <!-- omit in toc -->
 
-This is a template Repository for starting a new
-[FastAPI](https://fastapi.tiangolo.com/) project with Authentication and Users,
-with Authorization already baked-in.
+This a rewrite of my [URL Shortener](https://github.com/seapagan/url-shortener)
+which was in turn based on and extended from an original tutorial from Real
+Python.
 
 - [Functionality](#functionality)
-- [How to use](#how-to-use)
 - [Configuration](#configuration)
 - [Development](#development)
   - [Set up a Virtual Environment](#set-up-a-virtual-environment)
   - [Install required Dependencies](#install-required-dependencies)
   - [Migrate the Database](#migrate-the-database)
-  - [Customize the Metadata](#customize-the-metadata)
-    - [Manually](#manually)
-    - [Using the provided configuration tool](#using-the-provided-configuration-tool)
-    - [Funding Link](#funding-link)
-  - [Customize the HTML templates](#customize-the-html-templates)
   - [Add a user](#add-a-user)
   - [Run a development Server](#run-a-development-server)
 - [Deploying to Production](#deploying-to-production)
-- [Who is Using this Template?](#who-is-using-this-template)
 - [Planned Functionality](#planned-functionality)
 - [Contributing](#contributing)
 - [Project Organization](#project-organization)
@@ -38,63 +31,8 @@ with Authorization already baked-in.
 
 ## Functionality
 
-This template is a ready-to-use boilerplate for a FastAPI project. It has the
-following advantages to starting your own from scratch :
-
-- Baked-in User database and management. Routes are provided to add/edit/delete
-  or ban (and unban) Users.
-- Postgresql Integration, using SQLAlchemy ORM, no need for raw SQL queries
-  (unless you want to!). All database usage is Asynchronous.
-  [Alembic](https://github.com/sqlalchemy/alembic) is used to control database
-  migrations.
-- Register and Login routes provided, both of which return a JWT token to be
-  used in all future requests. JWT Token expires 120 minutes after issue.
-- JWT-based security as a Bearer Token to control access to all your routes.
-- A `Refresh Token` with 30 day expiry is sent at time of register or login
-  (never again). This will enable easy re-authentication when the JWT expires
-  without needing to send username or password again, and should be done
-  automatically by the Front-End.
-- A clean layout to help structure your project.
-- **A command-line admin tool**. This allows to configure the project metadata
-  very easily, add users (and make admin), and run a development server. This
-  can easily be modified to add your own functionality (for example bulk add
-  data) since it is based on the excellent
-  [asyncclick](https://github.com/python-trio/asyncclick) library.
-- Database and Secrets are automatically read from Environment variables or a
-  `.env` file if that is provided.
-- User email is validated for correct format on creation (however no checks are
-  performed to ensure the email or domain actually exists).
-- Control permitted CORS Origin through Environment variables.
-- Manager class set up to send emails to users, and by default an email is sent
-  when new users register. The content is set by a template (currently a
-  basic placeholder). This email has a link for the user to confirm their email
-  address - until this is done, the user cannot user the API.
-
-The template **Requires Python 3.7+**
-
-This template is free to use but I would request some accreditation. If you do
-use it in one of your applications, please put a small note in your readme
-stating that you based your project on this Template, with a link back to this
-repository. Thank You 😊
-
-For those who let me know they are using this Template, I'll add links back to
-your project in this documentation.
-
-If this template saves you time/effort/money, or you just wish to show your
-appreciation for my work, why not [Buy me a
-Coffee!](https://www.buymeacoffee.com/seapagan) 😃
-
-## How to use
-
-Click the 'Use this template' button at the top of the Repository on GitHub.
-This will create a new repository in your personal GitHub account (Not a Fork)
-which you can then Clone and start working on.
-
-It is assumed that you have at least some knowledge of
-[FastAPI](https://fastapi.tiangolo.com/) to use this template, there are very
-good [Basic](https://fastapi.tiangolo.com/tutorial/) and
-[Advanced](https://fastapi.tiangolo.com/advanced/) User Guides on the FastAPI
-website .
+At this time I am still customizing the base template prior to migrating over
+the original functionality.
 
 ## Configuration
 
@@ -211,112 +149,6 @@ alembic upgrade head
 Check out the [Alembic](https://github.com/sqlalchemy/alembic) repository for
 more information on how to use (for example how to revert migrations).
 
-### Customize the Metadata
-
-By default the Template Title, Description, Author and similar is set to my
-details. Changing this is very easy though, and there are 2 ways you can do.
-
-#### Manually
-
-Metadata is stored in the [config/metadata.py](config/metadata.py) file and this
-can be edited by hand if desired:
-
-```python
-from config.helpers import MetadataBase
-
-custom_metadata = MetadataBase(
-    title="API Template",
-    description="Run 'api-admin custom metadata' to change this information.",
-    repository="https://github.com/seapagan/fastapi-template",
-    license_info={
-        "name": "MIT",
-        "url": "https://opensource.org/licenses/MIT",
-    },
-    contact={
-        "name": "Grant Ramsay (seapagan)",
-        "url": "https://www.gnramsay.com",
-    },
-    email="seapagan@gmail.com",
-    year="2023"
-)
-```
-
-You can change the values in this dictionary as needed. You should also change
-the name, version, description and authors in the
-[pyproject.toml](pyproject.toml) file.
-
-For the License URL, you can find a list in the
-[helpers.py](config/helpers.py#L18)
-
-#### Using the provided configuration tool
-
-The `api-admin` command can also do this for you, asking for the values at the
-command line and automatically updating both files:
-
-```console
-$ api-admin custom metadata
-
-API-Template : Customize application Metadata
-
-Enter your API title [API Template]:
-Enter the description [Run 'api-admin custom metadata' to change this information.]:
-Version Number (use * to reset to '0.0.1') [1.3.1]:
-URL to your Repository [https://github.com/seapagan/fastapi-template]:
-
-Choose a license from the following options:
-Apache2, BSD3, BSD2, GPL, LGPL, MIT, MPL2, CDDL, EPL
-Your Choice of License? [MIT]:
-
-Author name or handle [Grant Ramsay (seapagan)]:
-Contact Email address [seapagan@gmail.com]:
-Author Website [https://www.gnramsay.com]:
-
-You have entered the following data:
-Title       : API Template
-Description : Run 'api-admin custom metadata' to change this information.
-Version     : 1.3.1
-Repository  : https://github.com/seapagan/fastapi-template
-License     : MIT
-Author      : Grant Ramsay (seapagan)
-Email       : seapagan@gmail.com
-Website     : https://www.gnramsay.com
-(C) Year    : 2023
-
-Is this Correct? [Y/n]: y
-
--> Writing out Metadata .... Done!
-```
-
-This will also put in the correct License URL link automatically.
-
-#### Funding Link
-
-The template does include a [.github/FUNDING.yml](.github/FUNDING.yml) file
-which contains a link to my [Buy Me A
-Coffee](https://www.buymeacoffee.com/seapagan) page. You can edit or delete this
-as you will or replace with your own details. If you really appreciate the
-Template, feel free to leave my details there in addition to your own, though
-this is entirely optional 😊
-
-The funding file allows your GitHub visitors to sponsor or tip you as a thanks
-for your work.
-
-### Customize the HTML templates
-
-There are several HTML templates used at this time, all are stored in the
-[templates](templates/) folder or a subfolder of this.
-
-- [index.html](templates/index.html) - This template is shown when the root of the API is visited using
-a web browser instead of an API call. Use it to display vasic details about your
-API and usage instructions, point to the documentation etc. The default output
-is below for an example:
-
-![Default Index Page](static/images/html_index.png)
-
-- [email/](/templates/email) - this folder contains HTML Email templates, **currently only
-basic placeholders**.
-  - `welcome.html`. This is sent to a new User when they sign up
-
 ### Add a user
 
 It is possible to add Users to the database using the API itself, but you cannot
@@ -420,11 +252,6 @@ or for AWS Elastic Beanstalk there is a very comprehensive tutorial at
 > hosting provider uses these - for example Vercel or Heroku) and set up and
 > migrate your Database, exactly the same as for Develpment as desctribed above.
 
-## Who is Using this Template?
-
-Meh, at the moment probably no-one except me 😆. If you do use this in one of your own
-projects, drop me a message and I'll add your profile and project links here 😃
-
 ## Planned Functionality
 
 See the [TODO.md](TODO.md) file for plans.
@@ -458,7 +285,7 @@ and should generally not need to be touched.
 customization. If you add more settings (for example in the `.env` file) you
 should also add them to the [settings.py](config/settings.py) or
 [metadata.py](config/metadata.py) with suitable defaults. Non-secret (or
-depoloyment independent) settings should go ing the `metadata` file, while
+depoloyment independent) settings should go in the `metadata` file, while
 secrets (or deployment specific) should go in the `settings` and `.env` files
 
 [commands/](/commands) - This directory can hold any commands you need to write,
@@ -503,9 +330,8 @@ simple informational JSON response is returned). You can edit the template in
 
 ## Provided Routes
 
-By default, this template comes with routes for Authentication and User control.
-These can be tweaked if required, and form a base for you to add your own
-api-specific routes.
+See below for a full list on implemented routes in this API.
+
 For full info and to test the routes, you can go to the `/docs` path on a
 running API for interactive Swagger (OpenAPI) Documentation.
 
