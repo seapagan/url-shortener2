@@ -1,10 +1,11 @@
-"""Main file for the Calendar API."""
+"""Main file for the API."""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.staticfiles import StaticFiles
 from rich import print
 
+from config.helpers import get_api_version
 from config.settings import get_settings
 from database.db import database
 from resources import config_error
@@ -17,7 +18,7 @@ app = FastAPI(
     docs_url=None,  # we customize this ourselves
     license_info=get_settings().license_info,
     contact=get_settings().contact,
-    version="1.3.0",
+    version=get_api_version(),
 )
 
 app.include_router(api_router)

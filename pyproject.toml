@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "URL Shortener v2"
-version = "0.1.0"
+version = "2.0.1"
 description = "A URL-Shortener written in Python with FastAPI"
-authors = ["Grant Ramsay <seapagan@gmail.com>"]
+authors = ["Grant Ramsay (seapagan) <seapagan@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = ">=3.8.1,<4.0"
 fastapi = "^0.87.0"
 alembic = "^1.9.2"
 databases = "^0.7.0"
@@ -39,6 +39,8 @@ version = "^1.7.4"
 [tool.poetry.group.dev.dependencies]
 openapi-readme = "^0.2.1"
 aiosmtpd = "^1.4.4"
+flake8 = "^6.0.0"
+black = "^22.12.0"
 
 [build-system]
 requires = ["poetry-core"]

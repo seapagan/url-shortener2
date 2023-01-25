@@ -6,7 +6,7 @@ Be aware, this will be re-generated any time you run the
 from config.helpers import MetadataBase
 
 custom_metadata = MetadataBase(
-    title="URL Shortener v2",
+    title="URL Shortener2",
     description="A URL-Shortener written in Python with FastAPI",
     repository="https://github.com/seapagan/url-shortener2",
     license_info={
@@ -14,8 +14,9 @@ custom_metadata = MetadataBase(
         "url": "https://opensource.org/licenses/MIT",
     },
     contact={
-        "name": "Grant Ramsay",
+        "name": "Grant Ramsay (seapagan)",
         "url": "https://www.gnramsay.com",
     },
     email="seapagan@gmail.com",
+    year="2023",
 )
