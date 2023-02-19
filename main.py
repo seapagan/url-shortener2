@@ -16,7 +16,6 @@ app = FastAPI(
     title=get_settings().api_title,
     description=get_settings().api_description,
     redoc_url=None,
-    # docs_url=None,  # we customize this ourselves
     license_info=get_settings().license_info,
     contact=get_settings().contact,
     version=get_api_version(),
@@ -53,20 +52,3 @@ async def startup():
 async def shutdown():
     """Disconnect from the database on shutdown."""
     await database.disconnect()
-
-
-# --------------------- override the default Swagger docs -------------------- #
-# @app.get("/docs", include_in_schema=False)
-# async def custom_swagger_ui_html():
-#     """Customize the default Swagger docs.
-
-#     In this case we merely override the default page title.
-#     """
-#     return get_swagger_ui_html(
-#         openapi_url=app.openapi_url,  # type: ignore
-#         title=f"{app.title} | Documentation",
-#         oauth2_redirect_url=app.swagger_ui_oauth2_redirect_url,
-#         swagger_ui_parameters={"defaultModelsExpandDepth": 0},
-#         swagger_js_url="https://cdn.jsdelivr.net/npm/swagger-ui-dist@4/swagger-ui-bundle.js",  # noqa E501
-#         swagger_css_url="https://cdn.jsdelivr.net/npm/swagger-ui-dist@4/swagger-ui.css",  # noqa E501
-#     )
