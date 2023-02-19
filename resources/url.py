@@ -2,6 +2,7 @@
 from fastapi import APIRouter, Depends
 
 from managers.auth import oauth2_schema
+from schemas.url import URLBase, URLInfo
 
 router = APIRouter(tags=["URL Management"], prefix="/url")
 
@@ -18,9 +19,12 @@ async def list_redirects():
 
 
 @router.post(
-    "/create", dependencies=[Depends(oauth2_schema)], name="create_a_redirect"
+    "/create",
+    dependencies=[Depends(oauth2_schema)],
+    name="create_a_redirect",
+    response_model=URLInfo,
 )
-async def create_redirect():
+async def create_redirect(url: URLBase):
     """Create a new URL redirection belonging to the current User."""
     pass
 
