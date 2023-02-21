@@ -1,5 +1,4 @@
 """Setup the model schemas."""
-from typing import List
 
 from pydantic import BaseModel, Field
 
@@ -28,12 +27,6 @@ class URLListItem(URLBase):
     """A single URL item, with extra 'url' field."""
 
     url: str = Field(example=ExampleURL.url)
-
-
-class URLList(BaseModel):
-    """List of URLs."""
-
-    urls: List[URLListItem]
 
 
 class URLInfo(URLResponse):

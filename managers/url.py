@@ -27,7 +27,7 @@ class URLManager:
     @staticmethod
     async def create_redirect(url: URLBase, user_id: int):
         """Create a new redirect with the provided URL"""
-        if not validators.url(url.target_url):
+        if not validators.url(url.target_url):  # type: ignore
             raise_bad_request(message="Your provided URL is not Valid")
 
         key = create_random_key()
@@ -53,3 +53,9 @@ class URLManager:
             **data,
             "url": f"{url_base}/{key}",
         }
+
+    @staticmethod
+    async def list_redirects(user_id: int):
+        return await database.fetch_all(
+            URL.select().where(URL.c.user_id == user_id)
+        )
