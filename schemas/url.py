@@ -17,7 +17,7 @@ class URLBase(BaseModel):
         orm_mode = True
 
 
-class URL(URLBase):
+class URLResponse(URLBase):
     """Define URL class."""
 
     is_active: bool = Field(example=ExampleURL.is_active)
@@ -36,7 +36,7 @@ class URLList(BaseModel):
     urls: List[URLListItem]
 
 
-class URLInfo(URL):
+class URLInfo(URLResponse):
     """Define URLInfo class."""
 
     url: str = Field(example=ExampleURL.url)

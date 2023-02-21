@@ -1,7 +1,8 @@
 """Routes to manage URL's."""
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 
 from managers.auth import oauth2_schema
+from managers.url import URLManager
 from schemas.url import URLBase, URLInfo
 
 router = APIRouter(tags=["URL Management"], prefix="/url")
@@ -24,9 +25,9 @@ async def list_redirects():
     name="create_a_redirect",
     response_model=URLInfo,
 )
-async def create_redirect(url: URLBase):
+async def create_redirect(url: URLBase, request: Request):
     """Create a new URL redirection belonging to the current User."""
-    pass
+    return await URLManager.create_redirect(url, request.state.user.id)
 
 
 @router.post(
