@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, Request
 from config.settings import get_settings
 from managers.auth import oauth2_schema
 from managers.url import URLManager
-from schemas.url import URLBase, URLInfo
+from schemas.url import AdminURLInfo, URLBase, URLInfo
 
 router = APIRouter(tags=["URL Management"], prefix="/url")
 

@@ -33,3 +33,10 @@ class URLInfo(URLResponse):
     """Define URLInfo class."""
 
     url: str = Field(example=ExampleURL.url)
+
+
+class AdminURLInfo(URLInfo):
+    """Extra fields for admin user."""
+
+    id: int
+    user_id: int
