@@ -19,6 +19,10 @@ The API uses the [FastAPI framework](https://fastapi.tiangolo.com/)
 - [Contributing](#contributing)
 - [Project Organization](#project-organization)
 - [Provided Routes](#provided-routes)
+  - [**`GET`** _/list_](#get-list)
+  - [**`POST`** _/create_](#post-create)
+  - [**`POST`** _/{url\_key}/edit_](#post-url_keyedit)
+  - [**`GET`** _/{url\_key}/peek_](#get-url_keypeek)
   - [**`GET`** _/users/_](#get-users)
   - [**`GET`** _/users/me_](#get-usersme)
   - [**`POST`** _/users/{user\_id}/make-admin_](#post-usersuser_idmake-admin)
@@ -30,6 +34,7 @@ The API uses the [FastAPI framework](https://fastapi.tiangolo.com/)
   - [**`POST`** _/register/_](#post-register)
   - [**`POST`** _/login/_](#post-login)
   - [**`POST`** _/refresh/_](#post-refresh)
+  - [**`GET`** _/verify/_](#get-verify)
 
 ## Functionality
 
@@ -405,6 +410,7 @@ running API for interactive Swagger (OpenAPI) Documentation.
 > Edit User : _Update the specified User's data._
 >
 > Available for the specific requesting User, or an Admin.
+>
 ### **`DELETE`** _/users/{user_id}_
 
 > Delete User : _Delete the specified User by user_id._
