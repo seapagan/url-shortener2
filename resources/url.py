@@ -8,7 +8,7 @@ from managers.auth import oauth2_schema
 from managers.url import URLManager
 from schemas.url import AdminURLInfo, URLBase, URLInfo
 
-router = APIRouter(tags=["URL Management"], prefix="/url")
+router = APIRouter(tags=["URL Management"])
 
 
 @router.get(
@@ -42,7 +42,7 @@ async def create_redirect(url: URLBase, request: Request):
 
 
 @router.post(
-    "/edit/{url_key}",
+    "/{url_key}/edit",
     dependencies=[Depends(oauth2_schema)],
     name="edit_a_redirect",
 )
@@ -54,7 +54,7 @@ async def edit_redirect(url_key: str):
     pass
 
 
-@router.get("/peek/{url_key}", name="peek_a_redirect")
+@router.get("/{url_key}/peek", name="peek_a_redirect")
 async def peek_redirect(url_key: str):
     """Return the target of the URL redirect only.
 
