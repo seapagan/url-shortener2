@@ -18,6 +18,7 @@ templates = Jinja2Templates(directory="templates")
 async def do_redirect(url_key: str, request: Request):
     """Redirect the user to the taget URL corresponding to the provided key."""
     if db_url := await URLManager.get_db_url_by_key(url_key):
+        await URLManager.increment_clicks(db_url["id"])
         return RedirectResponse(db_url.target_url)  # type: ignore
     else:
         raise_not_found(request)

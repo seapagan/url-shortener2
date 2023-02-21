@@ -28,6 +28,19 @@ class URLManager:
         return None
 
     @staticmethod
+    async def increment_clicks(url_id: int):
+        """Add one to the click total for this URL."""
+        db_url = await database.fetch_one(
+            URL.select().where(URL.c.id == url_id)
+        )
+        if db_url:
+            await database.execute(
+                URL.update()
+                .where(URL.c.id == url_id)
+                .values(clicks=db_url["clicks"] + 1)
+            )
+
+    @staticmethod
     async def create_redirect(url: URLBase, user_id: int):
         """Create a new redirect with the provided URL"""
         if not validators.url(url.target_url):  # type: ignore
