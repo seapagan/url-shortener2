@@ -14,7 +14,7 @@ router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 
-@router.get("/{url_key}", tags=["Redirect"], name="redirect")
+@router.get("/{url_key}", include_in_schema=False)
 async def do_redirect(url_key: str, request: Request):
     """Redirect the user to the taget URL corresponding to the provided key."""
     if db_url := await URLManager.get_db_url_by_key(url_key):
