@@ -2,19 +2,25 @@
 from typing import Union
 
 from fastapi import APIRouter, Header, Request
+from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from config.helpers import get_api_version
 from config.settings import get_settings
+from helpers.errors import raise_not_found
+from managers.url import URLManager
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 
 @router.get("/{url_key}", tags=["Redirect"], name="redirect")
-async def do_redirect(url_key: str):
+async def do_redirect(url_key: str, request: Request):
     """Redirect the user to the taget URL corresponding to the provided key."""
-    return {"key": url_key}
+    if db_url := await URLManager.get_db_url_by_key(url_key):
+        return RedirectResponse(db_url.target_url)  # type: ignore
+    else:
+        raise_not_found(request)
 
 
 @router.get("/", include_in_schema=False)
