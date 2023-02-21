@@ -20,9 +20,12 @@ class URLManager:
     @staticmethod
     async def get_db_url_by_key(url_key: str):
         """Return a URL entry by it's key."""
-        return await database.fetch_one(
+        result = await database.fetch_one(
             URL.select().where(URL.c.key == url_key)
         )
+        if result and result["is_active"] is not False:
+            return result
+        return None
 
     @staticmethod
     async def create_redirect(url: URLBase, user_id: int):
