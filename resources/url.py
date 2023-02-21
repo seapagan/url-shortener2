@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, Request
 from config.settings import get_settings
 from managers.auth import oauth2_schema
 from managers.url import URLManager
-from schemas.url import AdminURLInfo, URLBase, URLInfo
+from schemas.url import URLBase, URLInfo
 
 router = APIRouter(tags=["URL Management"])
 
@@ -41,7 +41,7 @@ async def create_redirect(url: URLBase, request: Request):
     return await URLManager.create_redirect(url, request.state.user.id)
 
 
-@router.post(
+@router.patch(
     "/{url_key}/edit",
     dependencies=[Depends(oauth2_schema)],
     name="edit_a_redirect",
@@ -54,10 +54,10 @@ async def edit_redirect(url_key: str):
     pass
 
 
-@router.get("/{url_key}/peek", name="peek_a_redirect")
+@router.get("/{url_key}/peek", name="peek_a_redirect", response_model=URLBase)
 async def peek_redirect(url_key: str):
     """Return the target of the URL redirect only.
 
     Anon users can access this.
     """
-    pass
+    return await URLManager.peek_redirect(url_key)

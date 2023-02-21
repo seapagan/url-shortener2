@@ -2,6 +2,7 @@ import secrets
 import string
 
 import validators
+from fastapi import HTTPException
 
 from config.settings import get_settings
 from database.db import database
@@ -72,6 +73,20 @@ class URLManager:
 
     @staticmethod
     async def list_redirects(user_id: int):
+        """Return a list of the user's redirects."""
         return await database.fetch_all(
             URL.select().where(URL.c.user_id == user_id)
         )
+
+    @staticmethod
+    async def peek_redirect(url_key: str):
+        """Return the target url of the provided key, don't redirect."""
+        if db_url := await database.fetch_one(
+            URL.select().where(URL.c.key == url_key)
+        ):
+            return db_url
+        else:
+            raise HTTPException(
+                status_code=404,
+                detail="A Redirect with that code does not exist.",
+            )
