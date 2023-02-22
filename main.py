@@ -19,6 +19,7 @@ app = FastAPI(
     license_info=get_settings().license_info,
     contact=get_settings().contact,
     version=get_api_version(),
+    swagger_ui_parameters={"defaultModelsExpandDepth": 0},
 )
 
 app.include_router(api_router)
