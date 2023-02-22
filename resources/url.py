@@ -1,33 +1,42 @@
 """Routes to manage URL's."""
-from typing import List
+from typing import List, Union
 
 from fastapi import APIRouter, Depends, Request
 
 from config.settings import get_settings
 from managers.auth import oauth2_schema
 from managers.url import URLManager
-from schemas.url import URLBase, URLInfo
+from schemas.url import AdminURLInfo, URLBase, URLInfo
 
 router = APIRouter(tags=["URL Management"])
+
+
+def add_url(item):
+    """Adds a generated URL to the response."""
+    base_url = get_settings().base_url
+    return {**item, "url": f"{base_url}/{item.key}"}
 
 
 @router.get(
     "/list",
     dependencies=[Depends(oauth2_schema)],
     name="list_redirects",
-    response_model=List[URLInfo],
+    response_model=Union[List[AdminURLInfo], List[URLInfo]],
+    response_model_exclude_unset=True,
 )
 async def list_redirects(request: Request):
     """List all URL's for the logged in user.
 
     Admin users can see all, anon users see nothing.
     """
-    base_url = get_settings().base_url
-    list_with_url = [
-        {**item, "url": f"{base_url}/{item.key}"}  # type: ignore
-        for item in await URLManager.list_redirects(request.state.user.id)
-    ]
-    return list_with_url
+    url_list = await URLManager.list_redirects(request.state.user)
+    if request.state.user.role == "admin":
+
+        return [
+            AdminURLInfo(**add_url(item)) for item in url_list  # type: ignore
+        ]
+    else:
+        return [URLInfo(**add_url(item)) for item in url_list]  # type: ignore
 
 
 @router.post(

@@ -7,6 +7,7 @@ from fastapi import HTTPException
 from config.settings import get_settings
 from database.db import database
 from helpers.errors import raise_bad_request
+from models.enums import RoleType
 from models.url import URL
 from schemas.url import URLBase
 
@@ -72,11 +73,14 @@ class URLManager:
         }
 
     @staticmethod
-    async def list_redirects(user_id: int):
+    async def list_redirects(user_do):
         """Return a list of the user's redirects."""
-        return await database.fetch_all(
-            URL.select().where(URL.c.user_id == user_id)
-        )
+        if user_do["role"] == RoleType.admin:
+            return await database.fetch_all(URL.select())
+        else:
+            return await database.fetch_all(
+                URL.select().where(URL.c.user_id == user_do["id"])
+            )
 
     @staticmethod
     async def peek_redirect(url_key: str):
