@@ -1,7 +1,7 @@
 """Routes to manage URL's."""
 from typing import List, Union
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, status
 
 from config.settings import get_settings
 from managers.auth import oauth2_schema
@@ -11,7 +11,7 @@ from schemas.url import AdminURLInfo, URLBase, URLInfo
 router = APIRouter(tags=["URL Management"])
 
 
-def add_url(item):
+def add_url_to_response(item):
     """Adds a generated URL to the response."""
     base_url = get_settings().base_url
     return {**item, "url": f"{base_url}/{item.key}"}
@@ -33,10 +33,14 @@ async def list_redirects(request: Request):
     if request.state.user.role == "admin":
 
         return [
-            AdminURLInfo(**add_url(item)) for item in url_list  # type: ignore
+            AdminURLInfo(**add_url_to_response(item))  # type: ignore
+            for item in url_list
         ]
     else:
-        return [URLInfo(**add_url(item)) for item in url_list]  # type: ignore
+        return [
+            URLInfo(**add_url_to_response(item))  # type: ignore
+            for item in url_list
+        ]
 
 
 @router.post(
@@ -70,3 +74,11 @@ async def peek_redirect(url_key: str):
     Anon users can access this.
     """
     return await URLManager.peek_redirect(url_key)
+
+
+@router.delete(
+    "/{url_key}", name="remove_redirect", status_code=status.HTTP_204_NO_CONTENT
+)
+async def remove_redirect(url_key: str):
+    """Delete the specified URL redirect."""
+    pass
