@@ -1,5 +1,4 @@
 """CLI functionality to customize the template."""
-
 from datetime import date
 
 import asyncclick as click
