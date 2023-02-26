@@ -1,4 +1,3 @@
-# pylint: disable=invalid-name
 """Define Enums for this project."""
 from enum import Enum
 

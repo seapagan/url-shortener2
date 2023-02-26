@@ -19,6 +19,10 @@ The API uses the [FastAPI framework](https://fastapi.tiangolo.com/)
 - [Contributing](#contributing)
 - [Project Organization](#project-organization)
 - [Provided Routes](#provided-routes)
+  - [**`GET`** _/list_](#get-list)
+  - [**`POST`** _/create_](#post-create)
+  - [**`POST`** _/{url\_key}/edit_](#post-url_keyedit)
+  - [**`GET`** _/{url\_key}/peek_](#get-url_keypeek)
   - [**`GET`** _/users/_](#get-users)
   - [**`GET`** _/users/me_](#get-usersme)
   - [**`POST`** _/users/{user\_id}/make-admin_](#post-usersuser_idmake-admin)
@@ -30,6 +34,7 @@ The API uses the [FastAPI framework](https://fastapi.tiangolo.com/)
   - [**`POST`** _/register/_](#post-register)
   - [**`POST`** _/login/_](#post-login)
   - [**`POST`** _/refresh/_](#post-refresh)
+  - [**`GET`** _/verify/_](#get-verify)
 
 ## Functionality
 
@@ -197,14 +202,14 @@ when you install the project dependencies. This can be used for testing the API
 during development. There is a built-in command to run this easily :
 
 ```console
-api-admin dev
+./api-admin dev
 ```
 
 This will by default run the server on <http://localhost:8000>, and reload after
 any change to the source code. You can add options to change this
 
 ```console
-$ api-admin dev --help
+$ ./api-admin dev --help
 
 Usage: api-admin dev [OPTIONS]
 
@@ -322,6 +327,9 @@ case).
 application, as usual with a separate file for each group. The Schemas are
 defined as [Pydantic](https://pydantic-docs.helpmanual.io/) Classes.
 
+[helpers/](/helpers) - Contains some helper functions that can be used across the
+code base.
+
 [static/](/static) - Any static files used by HTML templates for example CSS or
 JS files.
 
@@ -338,6 +346,28 @@ For full info and to test the routes, you can go to the `/docs` path on a
 running API for interactive Swagger (OpenAPI) Documentation.
 
 <!-- openapi-schema -->
+
+### **`GET`** _/list_
+
+> List Redirects : _List all URL's for the logged in user._
+>
+> Admin users can see all, anon users see nothing.
+
+### **`POST`** _/create_
+
+> Create A Redirect : _Create a new URL redirection belonging to the current User._
+
+### **`POST`** _/{url_key}/edit_
+
+> Edit A Redirect : _Edit an existing URL entrys destination.._
+>
+> For admin user only, can also edit the key.
+
+### **`GET`** _/{url_key}/peek_
+
+> Peek A Redirect : _Return the target of the URL redirect only._
+>
+> Anon users can access this.
 
 ### **`GET`** _/users/_
 
@@ -380,7 +410,7 @@ running API for interactive Swagger (OpenAPI) Documentation.
 > Edit User : _Update the specified User's data._
 >
 > Available for the specific requesting User, or an Admin.
-
+>
 ### **`DELETE`** _/users/{user_id}_
 
 > Delete User : _Delete the specified User by user_id._
@@ -415,6 +445,12 @@ running API for interactive Swagger (OpenAPI) Documentation.
 >
 > The Refresh token will not be updated at this time, it will still expire 30
 > days after original issue. At that time the User will need to login again.
+
+### **`GET`** _/verify/_
+
+> Verify : _Verify a new user._
+>
+> The code is sent to  new user by email, which must then be validated here.
 <!-- openapi-schema-end -->
 
 The route table above was automatically generated from an `openapi.json` file by

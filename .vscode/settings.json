@@ -38,7 +38,6 @@
   "python.linting.pylintArgs": [],
   "python.linting.pylintEnabled": false,
   "python.linting.pylintUseMinimalCheckers": false,
-  "python.pythonPath": "/home/seapagan/.pyenv/versions/calendar/bin/python",
   "python.sortImports.args": ["--profile", "black", "--src=${workspaceFolder}"],
   "python.testing.nosetestsEnabled": false,
   "python.testing.promptToConfigure": false,
@@ -47,5 +46,6 @@
   "python.testing.unittestEnabled": false,
   "testExplorer.addToEditorContextMenu": true,
   "python.analysis.typeCheckingMode": "basic",
-  "python.linting.mypyEnabled": false
+  "python.linting.mypyEnabled": false,
+  "isort.interpreter": ["./.venv/bin/python"]
 }

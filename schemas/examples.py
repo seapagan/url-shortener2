@@ -11,3 +11,12 @@ class ExampleUser:
     password = "My S3cur3 P@ssw0rd"
     role = "user"
     banned = False
+
+
+class ExampleURL:
+    """Define an example URL response for the docs."""
+
+    target_url = "https://github.com/seapagan"
+    is_active = True
+    clicks = 0
+    url = "https://myredirector.com/a1b2c3"
