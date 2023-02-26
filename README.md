@@ -38,8 +38,14 @@ The API uses the [FastAPI framework](https://fastapi.tiangolo.com/)
 
 ## Functionality
 
-At this time I am still customizing the base template prior to migrating over
-the original functionality.
+This application currently has the same functionality as Version 1, with the
+addition of User Authentication and Authorization. Anonymous users can use the
+redirect functionality, but cannot add new redirects nor edit existing.
+
+Full API documentation is available from the `/docs` route, which also allows to
+test out the API.
+
+Future plans are to add a user-friendly front end to this.
 
 ## Configuration
 
@@ -357,17 +363,19 @@ running API for interactive Swagger (OpenAPI) Documentation.
 
 > Create A Redirect : _Create a new URL redirection belonging to the current User._
 
-### **`POST`** _/{url_key}/edit_
+### **`PATCH`** _/{url_key}/edit_
 
-> Edit A Redirect : _Edit an existing URL entrys destination.._
->
-> For admin user only, can also edit the key.
+> Edit A Redirect : _Edit an existing URL entry destination._
 
 ### **`GET`** _/{url_key}/peek_
 
 > Peek A Redirect : _Return the target of the URL redirect only._
 >
 > Anon users can access this.
+
+### **`DELETE`** _/{url_key}_
+
+> Remove Redirect : _Delete the specified URL redirect._
 
 ### **`GET`** _/users/_
 
@@ -410,7 +418,6 @@ running API for interactive Swagger (OpenAPI) Documentation.
 > Edit User : _Update the specified User's data._
 >
 > Available for the specific requesting User, or an Admin.
->
 ### **`DELETE`** _/users/{user_id}_
 
 > Delete User : _Delete the specified User by user_id._
