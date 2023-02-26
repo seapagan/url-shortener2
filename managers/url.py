@@ -2,7 +2,7 @@ import secrets
 import string
 
 import validators
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 
 from config.settings import get_settings
 from database.db import database
@@ -89,6 +89,39 @@ class URLManager:
             URL.select().where(URL.c.key == url_key)
         ):
             return db_url
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="A Redirect with that code does not exist.",
+            )
+
+    @staticmethod
+    async def edit_redirect(url_key: str, url: URLBase, user_do):
+        """Edit an existing redirect."""
+        if db_url := await database.fetch_one(
+            URL.select().where(URL.c.key == url_key)
+        ):
+            print(db_url["user_id"], user_do.id)
+            if (
+                db_url["user_id"] == user_do.id
+                or user_do["role"] == RoleType.admin
+            ):
+                await database.execute(
+                    URL.update()
+                    .where(URL.c.id == db_url["id"])
+                    .values(target_url=url.target_url)
+                )
+                url_base = get_settings().base_url
+                return {
+                    **db_url,  # type: ignore
+                    "target_url": url.target_url,
+                    "url": f"{url_base}/{url_key}",
+                }
+            else:
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="You do not have permission to do that.",
+                )
         else:
             raise HTTPException(
                 status_code=404,

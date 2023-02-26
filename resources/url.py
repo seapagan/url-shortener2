@@ -58,13 +58,11 @@ async def create_redirect(url: URLBase, request: Request):
     "/{url_key}/edit",
     dependencies=[Depends(oauth2_schema)],
     name="edit_a_redirect",
+    response_model=URLInfo,
 )
-async def edit_redirect(url_key: str):
-    """Edit an existing URL entrys destination..
-
-    For admin user only, can also edit the key.
-    """
-    pass
+async def edit_redirect(url: URLBase, url_key: str, request: Request):
+    """Edit an existing URL entry destination."""
+    return await URLManager.edit_redirect(url_key, url, request.state.user)
 
 
 @router.get("/{url_key}/peek", name="peek_a_redirect", response_model=URLBase)
