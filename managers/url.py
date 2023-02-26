@@ -101,11 +101,7 @@ class URLManager:
         if db_url := await database.fetch_one(
             URL.select().where(URL.c.key == url_key)
         ):
-            print(db_url["user_id"], user_do.id)
-            if (
-                db_url["user_id"] == user_do.id
-                or user_do["role"] == RoleType.admin
-            ):
+            if db_url["user_id"] == user_do.id or user_do.role == "admin":
                 await database.execute(
                     URL.update()
                     .where(URL.c.id == db_url["id"])
@@ -122,6 +118,28 @@ class URLManager:
                     status_code=status.HTTP_401_UNAUTHORIZED,
                     detail="You do not have permission to do that.",
                 )
+        else:
+            raise HTTPException(
+                status_code=404,
+                detail="A Redirect with that code does not exist.",
+            )
+
+    @staticmethod
+    async def delete_redirect(url_key: str, user_do):
+        """Delete the specified redirect, by key."""
+        if db_url := await database.fetch_one(
+            URL.select().where(URL.c.key == url_key)
+        ):
+            if db_url["user_id"] == user_do.id or user_do.role == "admin":
+                await database.execute(
+                    URL.delete().where(URL.c.id == db_url["id"])
+                )
+            else:
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="You do not have permission to do that.",
+                )
+
         else:
             raise HTTPException(
                 status_code=404,

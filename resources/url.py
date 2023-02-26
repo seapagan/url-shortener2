@@ -75,8 +75,11 @@ async def peek_redirect(url_key: str):
 
 
 @router.delete(
-    "/{url_key}", name="remove_redirect", status_code=status.HTTP_204_NO_CONTENT
+    "/{url_key}",
+    name="remove_redirect",
+    dependencies=[Depends(oauth2_schema)],
+    status_code=status.HTTP_204_NO_CONTENT,
 )
-async def remove_redirect(url_key: str):
+async def remove_redirect(url_key: str, request: Request):
     """Delete the specified URL redirect."""
-    pass
+    return await URLManager.delete_redirect(url_key, request.state.user)
