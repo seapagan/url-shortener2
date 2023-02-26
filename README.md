@@ -21,8 +21,9 @@ The API uses the [FastAPI framework](https://fastapi.tiangolo.com/)
 - [Provided Routes](#provided-routes)
   - [**`GET`** _/list_](#get-list)
   - [**`POST`** _/create_](#post-create)
-  - [**`POST`** _/{url\_key}/edit_](#post-url_keyedit)
+  - [**`PATCH`** _/{url\_key}/edit_](#patch-url_keyedit)
   - [**`GET`** _/{url\_key}/peek_](#get-url_keypeek)
+  - [**`DELETE`** _/{url\_key}_](#delete-url_key)
   - [**`GET`** _/users/_](#get-users)
   - [**`GET`** _/users/me_](#get-usersme)
   - [**`POST`** _/users/{user\_id}/make-admin_](#post-usersuser_idmake-admin)
@@ -51,8 +52,8 @@ Future plans are to add a user-friendly front end to this.
 
 Database (and other) settings can be read from environment variables or from a
 `.env` file in the project root. By default, these are only used for the
-Database setup and JWT Secret Key. See the [.env.example](.env.example) file for
-how to use.
+Database setup, Email settings and JWT Secret Key. See the
+[.env.example](.env.example) file for how to use.
 
 ```ini
 # The Base API Url. This is where your API wil be served from, and can be read
@@ -76,6 +77,18 @@ SECRET_KEY=123456
 # CORS_ORIGINS=http://localhost,https://www.gnramsay.com
 # If you want all origins to access (the default), use * or leave commented:
 CORS_ORIGINS=*
+
+# Email Settings
+MAIL_USERNAME=test_username
+MAIL_PASSWORD=s3cr3tma1lp@ssw0rd
+MAIL_FROM=test@email.com
+MAIL_PORT=587
+MAIL_SERVER=mail.server.com
+MAIL_FROM_NAME="Seapagan @ URL Redirector"
+MAIL_STARTTLS=True
+MAIL_SSL_TLS=False
+MAIL_USE_CREDENTIALS=True
+MAIL_VALIDATE_CERTS=True
 ```
 
 For a **PUBLIC API** (unless its going through an API gateway!), set
@@ -418,6 +431,7 @@ running API for interactive Swagger (OpenAPI) Documentation.
 > Edit User : _Update the specified User's data._
 >
 > Available for the specific requesting User, or an Admin.
+>
 ### **`DELETE`** _/users/{user_id}_
 
 > Delete User : _Delete the specified User by user_id._
