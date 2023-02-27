@@ -13,7 +13,7 @@ router = APIRouter(tags=["Users"], prefix="/users")
 
 
 @router.get(
-    "/",
+    "",
     dependencies=[Depends(oauth2_schema), Depends(is_admin)],
     response_model=Union[UserResponse, List[UserResponse]],
 )
