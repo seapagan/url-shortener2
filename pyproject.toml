@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "URL Shortener v2"
-version = "2.0.2"
+version = "2.1.0"
 description = "A URL-Shortener written in Python with FastAPI"
 authors = ["Grant Ramsay (seapagan) <seapagan@gmail.com>"]
 license = "MIT"
