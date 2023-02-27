@@ -145,3 +145,30 @@ class URLManager:
                 status_code=404,
                 detail="A Redirect with that code does not exist.",
             )
+
+    @staticmethod
+    async def toggle_redirect(url_key: str, user_do, new_status):
+        """Activate or Deactivate the specified redirect, by key."""
+        if db_url := await database.fetch_one(
+            URL.select().where(URL.c.key == url_key)
+        ):
+            if db_url["is_active"] == new_status:
+                raise HTTPException(status_code=status.HTTP_304_NOT_MODIFIED)
+
+            if db_url["user_id"] == user_do.id or user_do.role == "admin":
+                await database.execute(
+                    URL.update()
+                    .where(URL.c.key == url_key)
+                    .values(is_active=new_status)
+                )
+            else:
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="You do not have permission to do that.",
+                )
+
+        else:
+            raise HTTPException(
+                status_code=404,
+                detail="A Redirect with that code does not exist.",
+            )

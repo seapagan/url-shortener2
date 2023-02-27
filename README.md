@@ -24,7 +24,9 @@ The API uses the [FastAPI framework](https://fastapi.tiangolo.com/)
   - [**`PATCH`** _/{url\_key}/edit_](#patch-url_keyedit)
   - [**`GET`** _/{url\_key}/peek_](#get-url_keypeek)
   - [**`DELETE`** _/{url\_key}_](#delete-url_key)
-  - [**`GET`** _/users/_](#get-users)
+  - [**`POST`** _/{url\_key}/deactivate_](#post-url_keydeactivate)
+  - [**`POST`** _/{url\_key}/activate_](#post-url_keyactivate)
+  - [**`GET`** _/users_](#get-users)
   - [**`GET`** _/users/me_](#get-usersme)
   - [**`POST`** _/users/{user\_id}/make-admin_](#post-usersuser_idmake-admin)
   - [**`POST`** _/users/{user\_id}/password_](#post-usersuser_idpassword)
@@ -32,10 +34,10 @@ The API uses the [FastAPI framework](https://fastapi.tiangolo.com/)
   - [**`POST`** _/users/{user\_id}/unban_](#post-usersuser_idunban)
   - [**`PUT`** _/users/{user\_id}_](#put-usersuser_id)
   - [**`DELETE`** _/users/{user\_id}_](#delete-usersuser_id)
-  - [**`POST`** _/register/_](#post-register)
-  - [**`POST`** _/login/_](#post-login)
-  - [**`POST`** _/refresh/_](#post-refresh)
-  - [**`GET`** _/verify/_](#get-verify)
+  - [**`POST`** _/register_](#post-register)
+  - [**`POST`** _/login_](#post-login)
+  - [**`POST`** _/refresh_](#post-refresh)
+  - [**`GET`** _/verify_](#get-verify)
 
 ## Functionality
 
@@ -390,7 +392,15 @@ running API for interactive Swagger (OpenAPI) Documentation.
 
 > Remove Redirect : _Delete the specified URL redirect._
 
-### **`GET`** _/users/_
+### **`POST`** _/{url_key}/deactivate_
+
+> Deactivate Redirect : _Deactivate the specified URL redirect._
+
+### **`POST`** _/{url_key}/activate_
+
+> Activate Redirect : _Activate the specified URL redirect._
+
+### **`GET`** _/users_
 
 > Get Users : _Get all users or a specific user by their ID._
 >
@@ -438,7 +448,7 @@ running API for interactive Swagger (OpenAPI) Documentation.
 >
 > Admin only.
 
-### **`POST`** _/register/_
+### **`POST`** _/register_
 
 > Register A New User : _Register a new User and return a JWT token plus a Refresh Token._
 >
@@ -449,7 +459,7 @@ running API for interactive Swagger (OpenAPI) Documentation.
 > endpoint to return a new JWT Token. The Refresh token will last 30 days, and
 > cannot be refreshed.
 
-### **`POST`** _/login/_
+### **`POST`** _/login_
 
 > Login An Existing User : _Login an existing User and return a JWT token plus a Refresh Token._
 >
@@ -460,14 +470,14 @@ running API for interactive Swagger (OpenAPI) Documentation.
 > endpoint to return a new JWT Token. The Refresh token will last 30 days, and
 > cannot be refreshed.
 
-### **`POST`** _/refresh/_
+### **`POST`** _/refresh_
 
 > Refresh An Expired Token : _Return a new JWT, given a valid Refresh token._
 >
 > The Refresh token will not be updated at this time, it will still expire 30
 > days after original issue. At that time the User will need to login again.
 
-### **`GET`** _/verify/_
+### **`GET`** _/verify_
 
 > Verify : _Verify a new user._
 >
