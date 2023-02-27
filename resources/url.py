@@ -83,3 +83,21 @@ async def peek_redirect(url_key: str):
 async def remove_redirect(url_key: str, request: Request):
     """Delete the specified URL redirect."""
     return await URLManager.delete_redirect(url_key, request.state.user)
+
+
+@router.post(
+    "/{url_key}/deactivate",
+    dependencies=[Depends(oauth2_schema)],
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+async def deactivate_redirect(url_key: str, request: Request):
+    return await URLManager.toggle_redirect(url_key, request.state.user, False)
+
+
+@router.post(
+    "/{url_key}/activate",
+    dependencies=[Depends(oauth2_schema)],
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+async def activate_redirect(url_key: str, request: Request):
+    return await URLManager.toggle_redirect(url_key, request.state.user, True)
