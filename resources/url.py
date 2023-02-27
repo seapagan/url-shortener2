@@ -91,6 +91,7 @@ async def remove_redirect(url_key: str, request: Request):
     status_code=status.HTTP_204_NO_CONTENT,
 )
 async def deactivate_redirect(url_key: str, request: Request):
+    """Deactivate the specified URL redirect."""
     return await URLManager.toggle_redirect(url_key, request.state.user, False)
 
 
@@ -100,4 +101,5 @@ async def deactivate_redirect(url_key: str, request: Request):
     status_code=status.HTTP_204_NO_CONTENT,
 )
 async def activate_redirect(url_key: str, request: Request):
+    """Activate the specified URL redirect."""
     return await URLManager.toggle_redirect(url_key, request.state.user, True)
