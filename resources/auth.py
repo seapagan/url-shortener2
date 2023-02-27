@@ -11,7 +11,7 @@ router = APIRouter(tags=["Authentication"])
 
 
 @router.post(
-    "/register/",
+    "/register",
     status_code=status.HTTP_201_CREATED,
     name="register_a_new_user",
     response_model=TokenResponse,
@@ -35,7 +35,7 @@ async def register(
 
 
 @router.post(
-    "/login/",
+    "/login",
     name="login_an_existing_user",
     response_model=TokenResponse,
     status_code=status.HTTP_200_OK,
@@ -55,7 +55,7 @@ async def login(user_data: UserLoginRequest):
 
 
 @router.post(
-    "/refresh/",
+    "/refresh",
     name="refresh_an_expired_token",
     response_model=TokenRefreshResponse,
 )
@@ -69,7 +69,7 @@ async def refresh(refresh_token: TokenRefreshRequest):
     return {"token": token}
 
 
-@router.get("/verify/", status_code=status.HTTP_200_OK)
+@router.get("/verify", status_code=status.HTTP_200_OK)
 async def verify(code: str = ""):
     """Verify a new user.
 
