@@ -1,4 +1,4 @@
-# FastAPI Application Template <!-- omit in toc -->
+# URL Shortener / Redirector <!-- omit in toc -->
 
 This a rewrite of my [URL Shortener](https://github.com/seapagan/url-shortener)
 which was in turn based on and extended from an original tutorial from [Real
